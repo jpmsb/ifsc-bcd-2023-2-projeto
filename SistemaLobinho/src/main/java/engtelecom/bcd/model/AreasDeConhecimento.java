@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class AreasDeConhecimento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAreaDeConhecimento;
+    private Integer idAreaDeConhecimento;
 
     @NonNull
     @Column(nullable = false)

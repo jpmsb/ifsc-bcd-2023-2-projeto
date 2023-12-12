@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class Distintivos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idDistintivo;
+    private Integer idDistintivo;
 
     @NonNull
     @Column(nullable = false)

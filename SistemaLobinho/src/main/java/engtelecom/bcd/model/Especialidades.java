@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class Especialidades {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEspecialidade;
+    private Integer idEspecialidade;
 
     @NonNull
     @Column(nullable = false)

@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class Insignias {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idInsignia;
+    private Integer idInsignia;
 
     @NonNull
     @Column(nullable = false)

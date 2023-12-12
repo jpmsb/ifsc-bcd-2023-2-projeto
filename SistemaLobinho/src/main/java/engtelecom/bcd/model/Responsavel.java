@@ -15,7 +15,7 @@ import java.util.List;
 public class Responsavel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idResponsavel;
+    private Integer idResponsavel;
 
     @NonNull
     @Column(nullable = false)

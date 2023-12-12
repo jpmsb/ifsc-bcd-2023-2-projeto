@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class TipoSanguineo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idTipoSanguineo;
+    private Integer idTipoSanguineo;
 
     @NonNull
     @Column(nullable = false)

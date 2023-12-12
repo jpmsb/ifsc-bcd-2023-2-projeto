@@ -15,7 +15,7 @@ import java.util.List;
 public class ProblemasDeSaude {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProblemaDeSaude;
+    private Integer idProblemaDeSaude;
 
     @NonNull
     @Column(nullable = false)
