@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -38,29 +37,14 @@ public class Pessoa implements Serializable {
     @ManyToOne
     private TipoSanguineo tipoSanguineo;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Vinculo",
-            joinColumns = @JoinColumn(name = "idPessoa"),
-            inverseJoinColumns = @JoinColumn(name = "idResponsavel")
-    )
-    private List<Responsavel> responsaveis;
+    @OneToMany(mappedBy = "pessoa")
+    private List<Vinculos> vinculos = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "NoitesAcampadas",
-            joinColumns = @JoinColumn(name = "idPessoa"),
-            inverseJoinColumns = @JoinColumn(name = "idAcampamento")
-    )
-    private List<Acampamentos> acampamentos;
+    @OneToMany(mappedBy = "pessoa")
+    private List<NoitesAcampadas> noitesAcampadas;
 
-    @ManyToMany
-    @JoinTable(
-            name = "DadosDeSaude",
-            joinColumns = @JoinColumn(name = "idPessoa"),
-            inverseJoinColumns = @JoinColumn(name = "idProblemaDeSaude")
-    )
-    private List<ProblemasDeSaude> problemasDeSaude;
+    @OneToMany(mappedBy = "pessoa")
+    private List<DadosDeSaude> dadosDeSaude = new ArrayList<>();
 
     @OneToMany(mappedBy = "pessoa")
     public List<AtividadesDeInsigniasFeitas> atividades = new ArrayList<>();

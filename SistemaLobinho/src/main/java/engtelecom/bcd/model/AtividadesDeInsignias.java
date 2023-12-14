@@ -6,11 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class AtividadesDeDistintivo {
+public class AtividadesDeInsignias implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAtividade;
@@ -21,6 +25,9 @@ public class AtividadesDeDistintivo {
 
     @NonNull
     @ManyToOne
-    @JoinColumn(name = "idDistintivo", nullable = false)
-    private Distintivos distintivo;
+    @JoinColumn(name = "idInsignia", nullable = false)
+    private Insignias insignia;
+
+    @OneToMany(mappedBy = "atividadeDeInsignia")
+    public List<AtividadesDeInsigniasFeitas> atividades = new ArrayList<>();
 }

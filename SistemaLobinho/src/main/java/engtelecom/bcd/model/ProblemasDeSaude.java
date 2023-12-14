@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,6 @@ public class ProblemasDeSaude {
     @Column(nullable = false)
     private String descricao;
 
-    @ManyToMany(mappedBy = "problemasDeSaude")
-    private List<Pessoa> pessoas;
+    @OneToMany(mappedBy = "problemaDeSaude")
+    private List<DadosDeSaude> problemasDeSaude = new ArrayList<>();
 }

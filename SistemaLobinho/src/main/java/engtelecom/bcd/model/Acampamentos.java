@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ import java.util.List;
 public class Acampamentos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAcampamento;
+    private Integer idAcampamento;
 
     @NonNull
     @Column(nullable = false)
@@ -26,6 +27,6 @@ public class Acampamentos {
     @Column(nullable = false)
     private Date data;
 
-    @ManyToMany(mappedBy = "acampamentos")
-    private List<Pessoa> pessoas;
+    @OneToMany(mappedBy = "acampamento")
+    private List<NoitesAcampadas> noitesAcampadas = new ArrayList<>();
 }

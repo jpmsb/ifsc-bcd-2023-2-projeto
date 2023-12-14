@@ -2,7 +2,6 @@ package engtelecom.bcd.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -17,7 +16,7 @@ public class AtividadesDeInsigniasFeitas implements Serializable {
     @Id
     @NonNull
     @ManyToOne
-    private AtividadesDeInsignia atividadeDeInsignia;
+    private AtividadesDeInsignias atividadeDeInsignia;
 
     @Id
     @NonNull

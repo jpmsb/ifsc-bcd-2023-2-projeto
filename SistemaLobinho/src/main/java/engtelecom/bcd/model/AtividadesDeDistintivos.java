@@ -5,17 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class AtividadesDeInsignia implements Serializable {
+public class AtividadesDeDistintivos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAtividade;
@@ -26,9 +21,6 @@ public class AtividadesDeInsignia implements Serializable {
 
     @NonNull
     @ManyToOne
-    @JoinColumn(name = "idInsignia", nullable = false)
-    private Insignias insignia;
-
-    @OneToMany(mappedBy = "atividadeDeInsignia")
-    public List<AtividadesDeInsigniasFeitas> atividades = new ArrayList<>();
+    @JoinColumn(name = "idDistintivo", nullable = false)
+    private Distintivos distintivo;
 }

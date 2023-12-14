@@ -15,7 +15,7 @@ import java.sql.Date;
 public class AtividadesDeDistintivosFeitas implements Serializable {
     @Id
     @ManyToOne
-    private AtividadesDeDistintivo atividadeDeDistintivo;
+    private AtividadesDeDistintivos atividadeDeDistintivo;
 
     @Id
     @ManyToOne

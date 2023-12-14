@@ -15,8 +15,9 @@ public class AtividadesDeEspecialidades {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idAtividade;
 
+
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String descricao;
 
     @NonNull
