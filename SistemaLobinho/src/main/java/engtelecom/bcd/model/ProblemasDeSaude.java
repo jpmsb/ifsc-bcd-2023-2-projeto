@@ -6,8 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -26,6 +27,6 @@ public class ProblemasDeSaude {
     @Column(nullable = false)
     private String descricao;
 
-    @OneToMany(mappedBy = "problemaDeSaude")
-    private List<DadosDeSaude> problemasDeSaude = new ArrayList<>();
+    @ManyToMany(mappedBy = "problemasDeSaude", fetch = FetchType.EAGER)
+    private Set<Pessoa> pessoas;
 }

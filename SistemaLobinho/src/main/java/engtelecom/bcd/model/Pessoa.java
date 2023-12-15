@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -37,15 +39,38 @@ public class Pessoa implements Serializable {
     @ManyToOne
     private TipoSanguineo tipoSanguineo;
 
-    @OneToMany(mappedBy = "pessoa")
-    private List<Vinculos> vinculos = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "Vinculo",
+            joinColumns = @JoinColumn(name = "idPessoa"),
+            inverseJoinColumns = @JoinColumn(name = "idResponsavel")
+    )
+    private Set<Responsavel> responsaveis = new HashSet<>();
 
-    @OneToMany(mappedBy = "pessoa")
-    private List<NoitesAcampadas> noitesAcampadas;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "NoitesAcampadas",
+            joinColumns = @JoinColumn(name = "idPessoa"),
+            inverseJoinColumns = @JoinColumn(name = "idAcampamento")
+    )
+    private Set<Acampamentos> acampamentos = new HashSet<>();
 
-    @OneToMany(mappedBy = "pessoa")
-    private List<DadosDeSaude> dadosDeSaude = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "DadosDeSaude",
+            joinColumns = @JoinColumn(name = "idPessoa"),
+            inverseJoinColumns = @JoinColumn(name = "idProblemaDeSaude")
+    )
+    private Set<ProblemasDeSaude> problemasDeSaude = new HashSet<>();
 
     @OneToMany(mappedBy = "pessoa")
     public List<AtividadesDeInsigniasFeitas> atividades = new ArrayList<>();
+
+    public boolean adicionarResponsavel(Responsavel responsavel){
+        return this.responsaveis.add(responsavel);
+    }
+
+    public boolean adicionarDadoSaude(ProblemasDeSaude problemaDeSaude){
+        return this.problemasDeSaude.add(problemaDeSaude);
+    }
 }

@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -30,6 +30,6 @@ public class Responsavel {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "responsavel")
-    private List<Vinculos> vinculos = new ArrayList<>();
+    @ManyToMany(mappedBy = "responsaveis", fetch = FetchType.EAGER)
+    private Set<Pessoa> pessoas;
 }
