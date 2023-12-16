@@ -1,10 +1,7 @@
 package engtelecom.bcd.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -17,6 +14,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(exclude = {"responsaveis", "acampamentos", "problemasDeSaude"})
 public class Pessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,5 +70,9 @@ public class Pessoa implements Serializable {
 
     public boolean adicionarDadoSaude(ProblemasDeSaude problemaDeSaude){
         return this.problemasDeSaude.add(problemaDeSaude);
+    }
+
+    public boolean adicionarNoiteAcampada(Acampamentos acampamento){
+        return this.acampamentos.add(acampamento);
     }
 }

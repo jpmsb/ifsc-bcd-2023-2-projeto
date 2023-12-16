@@ -1,10 +1,7 @@
 package engtelecom.bcd.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.Set;
@@ -13,6 +10,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(exclude = {"pessoas"})
 public class Responsavel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
