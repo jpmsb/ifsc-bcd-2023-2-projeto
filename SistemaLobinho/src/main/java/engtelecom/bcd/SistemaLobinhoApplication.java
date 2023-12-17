@@ -51,6 +51,10 @@ public class SistemaLobinhoApplication {
 
 	@NonNull
 	@Autowired
+	private AtividadesDeInsigniasFeitasRepository atividadesDeInsigniasFeitasRepository;
+
+	@NonNull
+	@Autowired
 	private AtividadesDeDistintivosFeitasRepository atividadesDeDistintivosFeitasRepository;
 
 
@@ -129,8 +133,10 @@ public class SistemaLobinhoApplication {
 					listarJovensComDeterminadaEspecialidade();
 					break;
 				case 3:
+					 listarEspecialidadesEInsigniasDeUmJovem();
 					break;
 				case 4:
+					// listarRequisitosFeitosJovemEspecialidade()
 					break;
 				case 5:
 					break;
@@ -300,6 +306,76 @@ public class SistemaLobinhoApplication {
 		}
 	}
 
+	private void mostrarDadosDeEspecialidadeParaJovem(Pessoa pessoa, Especialidades especialidade){
+		var atividades = atividadesDeEspecialidadesRepository.findAllByEspecialidadeOrderByIdAtividade(especialidade);
+		int quantidadeTotalDeAtividades = atividades.size();
+
+		int indiceNivel1 = (quantidadeTotalDeAtividades / 3) - 1;
+		int indiceNivel2 = ((quantidadeTotalDeAtividades * 2) / 3) - 1;
+		int indiceNivel3 = quantidadeTotalDeAtividades - 1;
+
+		ArrayList<AtividadesDeEspecialidades> atividadesRealizadas = new ArrayList<>();
+
+		var atividadesFeitasPelaPessoa = atividadesDeEspecialidadesFeitasRepository.findAllByPessoaOrderByData(pessoa);
+
+		for (AtividadesDeEspecialidadesFeitas atividadeFeitaPelaPessoa : atividadesFeitasPelaPessoa){
+			if (atividadeFeitaPelaPessoa.getAtividadeDeEspecialidade().getEspecialidade().equals(especialidade)){
+				atividadesRealizadas.add(atividadeFeitaPelaPessoa.getAtividadeDeEspecialidade());
+			}
+		}
+
+		System.out.println("Especialidade " + especialidade.getNome() + ": ");
+
+		if (atividadesRealizadas.size() >= indiceNivel1+1) {
+			AtividadesDeEspecialidades atividadeNivel1 = atividadesRealizadas.get(indiceNivel1);
+
+			LocalDate dataNivel1 = atividadesDeEspecialidadesFeitasRepository.findAtividadesDeEspecialidadesFeitasByPessoaAndAtividadeDeEspecialidade(pessoa, atividadeNivel1).getData().toLocalDate();
+
+			System.out.println(" - Nível 1: " + dataNivel1.getDayOfMonth() + "/" + dataNivel1.getMonthValue() + "/" + dataNivel1.getYear());
+		}
+
+		if (atividadesRealizadas.size() >= indiceNivel2+1) {
+			AtividadesDeEspecialidades atividadeNivel2 = atividadesRealizadas.get(indiceNivel2);
+
+			LocalDate dataNivel2 = atividadesDeEspecialidadesFeitasRepository.findAtividadesDeEspecialidadesFeitasByPessoaAndAtividadeDeEspecialidade(pessoa, atividadeNivel2).getData().toLocalDate();
+
+			System.out.println(" - Nível 2: " + dataNivel2.getDayOfMonth() + "/" + dataNivel2.getMonthValue() + "/" + dataNivel2.getYear());
+		}
+
+		if (quantidadeTotalDeAtividades == atividadesRealizadas.size()) {
+			AtividadesDeEspecialidades atividadeNivel3 = atividadesRealizadas.get(indiceNivel3);
+
+			LocalDate dataNivel3 = atividadesDeEspecialidadesFeitasRepository.findAtividadesDeEspecialidadesFeitasByPessoaAndAtividadeDeEspecialidade(pessoa, atividadeNivel3).getData().toLocalDate();
+
+			System.out.println(" - Nível 3: " + dataNivel3.getDayOfMonth() + "/" + dataNivel3.getMonthValue() + "/" + dataNivel3.getYear());
+		}
+	}
+
+	private void mostrarDadosDeInsigniaParaJovem(Pessoa pessoa, Insignias insignia){
+		var atividades = atividadesDeInsigniasRepository.findAllByInsigniaOrderByIdAtividade(insignia);
+		int quantidadeTotalDeAtividades = atividades.size();
+
+		ArrayList<AtividadesDeInsignias> atividadesRealizadas = new ArrayList<>();
+
+		var atividadesFeitasPelaPessoa = atividadesDeInsigniasFeitasRepository.findAllByPessoaOrderByData(pessoa);
+
+		for (AtividadesDeInsigniasFeitas atividadeFeitaPelaPessoa : atividadesFeitasPelaPessoa){
+			if (atividadeFeitaPelaPessoa.getAtividadeDeInsignia().getInsignia().equals(insignia)){
+				atividadesRealizadas.add(atividadeFeitaPelaPessoa.getAtividadeDeInsignia());
+			}
+		}
+
+
+
+		if (quantidadeTotalDeAtividades == atividadesRealizadas.size()) {
+			AtividadesDeInsignias ultimaAtividadeFeita = atividadesRealizadas.get(quantidadeTotalDeAtividades-1);
+
+			LocalDate dataUltimaAtividade = atividadesDeInsigniasFeitasRepository.findAtividadesDeInsigniasFeitasByPessoaAndAtividadeDeInsignia(pessoa, ultimaAtividadeFeita).getData().toLocalDate();
+
+			System.out.println(insignia.getNome() + ": " + dataUltimaAtividade.getDayOfMonth() + "/"  + dataUltimaAtividade.getMonthValue() + "/" + dataUltimaAtividade.getYear());
+		}
+	}
+
 	private void listarJovensComDeterminadaEspecialidade(){
 		Scanner entrada = new Scanner(System.in);
 		boolean sair = false;
@@ -321,13 +397,6 @@ public class SistemaLobinhoApplication {
 				// Atividades da especialidade escolhida
 				var consultaEspecialidade = especialidadesRepository.findById(opcao);
 				var objetoEspecialidade = consultaEspecialidade.get();
-				var atividades = atividadesDeEspecialidadesRepository.findAllByEspecialidadeOrderByIdAtividade(objetoEspecialidade);
-				int quantidadeTotalDeAtividades = atividades.size();
-
-				int indiceNivel1 = (quantidadeTotalDeAtividades / 3) - 1;
-				int indiceNivel2 = ((quantidadeTotalDeAtividades * 2) / 3) - 1;
-				int indiceNivel3 = quantidadeTotalDeAtividades - 1;
-
 				var atividadesFeitas = atividadesDeEspecialidadesFeitasRepository.findAll();
 
 				// Obtendo as pessoas que fizeram alguma atividade
@@ -340,41 +409,60 @@ public class SistemaLobinhoApplication {
 
 				// Verificando em cada pessoa as atividades da especialidade escolhida
 				for (Pessoa pessoa : pessoas){
-					ArrayList<AtividadesDeEspecialidades> atividadesRealizadas = new ArrayList<>();
+					System.out.println("Jovem: " + pessoa.getNome() + ":");
+					mostrarDadosDeEspecialidadeParaJovem(pessoa, objetoEspecialidade);
+					System.out.println();
+				}
+			}
+		}
+	}
 
-					var atividadesFeitasPelaPessoa = atividadesDeEspecialidadesFeitasRepository.findAllByPessoaOrderByData(pessoa);
+	private void listarEspecialidadesEInsigniasDeUmJovem(){
+		Scanner entrada = new Scanner(System.in);
+		boolean sair = false;
 
-					for (AtividadesDeEspecialidadesFeitas atividadeFeitaPelaPessoa : atividadesFeitasPelaPessoa){
-						if (atividadeFeitaPelaPessoa.getAtividadeDeEspecialidade().getEspecialidade().equals(objetoEspecialidade)){
-							atividadesRealizadas.add(atividadeFeitaPelaPessoa.getAtividadeDeEspecialidade());
-						}
-					}
+		System.out.println("\n\nSelecione um jovem:\n");
 
-					System.out.println(pessoa.getNome() + " possui a especialidade " + objetoEspecialidade.getNome() + ": ");
+		int quantidadeOpcoes = exibirPessoas();
 
-					if (atividadesRealizadas.size() >= indiceNivel1+1) {
-						AtividadesDeEspecialidades atividadeNivel1 = atividadesRealizadas.get(indiceNivel1);
+		while (! sair) {
+			System.out.print("\nEscolha a opção desejada (1 .. " + quantidadeOpcoes + ", 0 para sair): ");
+			int opcao = entrada.nextInt();
 
-						LocalDate dataNivel1 = atividadesDeEspecialidadesFeitasRepository.findAtividadesDeEspecialidadesFeitasByPessoaAndAtividadeDeEspecialidade(pessoa, atividadeNivel1).getData().toLocalDate();
+			if (opcao == 0) {
+				System.out.println("Voltando ao menu anterior.");
+				sair = true;
+			} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+				System.out.println("Opção inválida!");
+			} else {
+				// Obter objeto pessoa
+				var consultaPessoa = pessoaRepository.findById(opcao);
+				var objetoPessoa = consultaPessoa.get();
 
-						System.out.println(" - Nível 1: " + dataNivel1.getDayOfMonth() + "/" + dataNivel1.getMonthValue() + "/" + dataNivel1.getYear());
-					}
+				var atividadesDeEspecialidadesFeitas = atividadesDeEspecialidadesFeitasRepository.findAllByPessoaOrderByData(objetoPessoa);
+				var atividadesDeInsigniasFeitas = atividadesDeInsigniasFeitasRepository.findAllByPessoaOrderByData(objetoPessoa);
 
-					if (atividadesRealizadas.size() >= indiceNivel2+1) {
-						AtividadesDeEspecialidades atividadeNivel2 = atividadesRealizadas.get(indiceNivel2);
+				System.out.println("\nJovem: " + objetoPessoa.getNome() + ":");
 
-						LocalDate dataNivel2 = atividadesDeEspecialidadesFeitasRepository.findAtividadesDeEspecialidadesFeitasByPessoaAndAtividadeDeEspecialidade(pessoa, atividadeNivel2).getData().toLocalDate();
+				// Obter as especialidades com alguma atividade feita
+				Set<Especialidades> especialidadesFeitas = new HashSet<>();
+				for (AtividadesDeEspecialidadesFeitas atividade : atividadesDeEspecialidadesFeitas){
+					especialidadesFeitas.add(atividade.getAtividadeDeEspecialidade().getEspecialidade());
+				}
 
-						System.out.println(" - Nível 2: " + dataNivel2.getDayOfMonth() + "/" + dataNivel2.getMonthValue() + "/" + dataNivel2.getYear());
-					}
+				for (Especialidades especialidade : especialidadesFeitas){
+					mostrarDadosDeEspecialidadeParaJovem(objetoPessoa, especialidade);
+					System.out.println();
+				}
 
-					if (quantidadeTotalDeAtividades == atividadesRealizadas.size()) {
-						AtividadesDeEspecialidades atividadeNivel3 = atividadesRealizadas.get(indiceNivel3);
+				// Obter as insígnias com alguma atividade feita
+				Set<Insignias> insigniasFeitas = new HashSet<>();
+				for (AtividadesDeInsigniasFeitas atividade : atividadesDeInsigniasFeitas){
+					insigniasFeitas.add(atividade.getAtividadeDeInsignia().getInsignia());
+				}
 
-						LocalDate dataNivel3 = atividadesDeEspecialidadesFeitasRepository.findAtividadesDeEspecialidadesFeitasByPessoaAndAtividadeDeEspecialidade(pessoa, atividadeNivel3).getData().toLocalDate();
-
-						System.out.println(" - Nível 3: " + dataNivel3.getDayOfMonth() + "/" + dataNivel3.getMonthValue() + "/" + dataNivel3.getYear());
-					}
+				for (Insignias insignia : insigniasFeitas){
+					mostrarDadosDeInsigniaParaJovem(objetoPessoa, insignia);
 					System.out.println();
 				}
 			}
