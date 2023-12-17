@@ -79,7 +79,6 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
     private AtividadesDeEspecialidadesFeitasRepository atividadesDeEspecialidadesFeitasRepository;
 
     public void adicionarAreasDeConhecimento(String[] areasDeConhecimento){
-        System.out.println("Adicionando áreas de conhecimento...");
         for (String areaDeConhecimento : areasDeConhecimento) {
             AreasDeConhecimento novaAreaDeConhecimento = new AreasDeConhecimento(areaDeConhecimento);
             areasDeConhecimentoRepository.save(novaAreaDeConhecimento);
@@ -87,7 +86,6 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
     }
 
     private void adicionarInsignias(String[] insignias){
-        System.out.println("Adicionando insígnias...");
         for (String insignia : insignias) {
             Insignias novaInsignia = new Insignias(insignia);
             insigniasRepository.save(novaInsignia);
@@ -95,7 +93,6 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
     }
 
     private void adicionarDistintivos(String[] distintivos){
-        System.out.println("Adicionando distintivos...");
         for (String distintivo : distintivos) {
             Distintivos novoDistintivo = new Distintivos(distintivo);
             distintivosRepository.save(novoDistintivo);
@@ -103,7 +100,6 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
     }
 
     private void adicionarTiposSanguineos(String[] tipos){
-        System.out.println("Adicionando tipos sanguíneos...");
         for (String tipo : tipos) {
             TipoSanguineo novoTipo = new TipoSanguineo(tipo);
             tipoSanguineoRepository.save(novoTipo);
@@ -138,8 +134,6 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
     }
 
     private void adicionarEspecialidades(String[] especialidades, String areaDeConhecimento){
-        System.out.println("Adicionando especialidades...");
-
         var areaDeConhec = areasDeConhecimentoRepository.findAreasDeConhecimentoByNome(areaDeConhecimento);
 
         if (areaDeConhec.isPresent()) {
@@ -410,7 +404,7 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
 
 
         // Especialidade radioescuta
-        System.out.println("Adicionando atividades da especialidade radioescuta...");
+        // System.out.println("Adicionando atividades da especialidade radioescuta...");
         String atividadesRadioescuta[] = {
                 "Promover, sozinho ou com sua estação ou matilha/patrulha e na presença de seu examinador, duas visitas a estações de radioamador e uma visita a uma estação comercial de rádio ou televisão, apresentando relatório à seção.",
                 "Relatar por escrito 1 (um) mínimo de 5 (cinco) estações de rádio que transmitam em ondas curtas programas em língua portuguesa e outras 5 (cinco) que transmitam em língua estrangeira, descrevendo horários, frequência e conteúdo da programação.",
@@ -424,7 +418,6 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
 
 
         // Especialidade faixa do cidadão
-        System.out.println("Adicionando atividades da especialidade faixa do cidadão...");
         String atividadesFaixaDoCidadao[] = {
                 "Conhecer a técnica e a ética operacional quanto ao uso de radiotransmissores.",
                 "Apresentar 1 (um) relatório contendo 1 (um) mínimo de vinte contatos feitos por si próprio.",
