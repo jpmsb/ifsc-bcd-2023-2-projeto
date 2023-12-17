@@ -802,6 +802,7 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
         this.adicionarResponsavel("Jorgeh José Ramos", "789654123", "jorgeh@ramos.com");
         this.adicionarResponsavel("Gérson Ribeiro de Abreu Júnior", "321456987", "gerson@abreu.com");
 
+
         // Adicionando vínculos
         this.adicionarVinculo(1,1);
         this.adicionarVinculo(1,2);
@@ -818,10 +819,14 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
         // Adicionando Informações de saúde na pessoa
         this.adicionarDadosDeSaude(1, 1);
         this.adicionarDadosDeSaude(1, 2);
+
         this.adicionarDadosDeSaude(2, 1);
+
         this.adicionarDadosDeSaude(3, 3);
 
+
         // Adicionando acampamentos em pessoa
+        // Pessoa 1 possui 3 acampamentos participados
         this.adicionarNoitesAcampadas(1, 1);
         this.adicionarNoitesAcampadas(2, 1);
         this.adicionarNoitesAcampadas(3, 1);
@@ -830,6 +835,7 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
         this.adicionarNoitesAcampadas(6, 1);
         this.adicionarNoitesAcampadas(7, 1);
         this.adicionarNoitesAcampadas(8, 1);
+
         this.adicionarNoitesAcampadas(1, 2);
         this.adicionarNoitesAcampadas(2, 2);
         this.adicionarNoitesAcampadas(3, 2);
@@ -838,38 +844,172 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
         this.adicionarNoitesAcampadas(6, 2);
         this.adicionarNoitesAcampadas(7, 2);
         this.adicionarNoitesAcampadas(8, 2);
+
         this.adicionarNoitesAcampadas(1, 3);
+
 
         // Adicionando Atividiades de distintivos em pessoa
         // Pessoa 1
+        // Distintivo lobo pata tenra
         this.adicionarAtividadesDeDistintivosFeitas(1,1, 1,1,2023);
         this.adicionarAtividadesDeDistintivosFeitas(1,2, 1,2,2023);
         this.adicionarAtividadesDeDistintivosFeitas(1,3, 1,3,2023);
 
+        // Distintivo lobo saltador
+        this.adicionarAtividadesDeDistintivosFeitas(1,4, 3,4,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(1,5, 6,4,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(1,6, 9,4,2023);
+
+        // Distintivo lobo rastreador
+        this.adicionarAtividadesDeDistintivosFeitas(1,7, 3,5,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(1,8, 6,5,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(1,9, 9,5,2023);
+
+        // Distintivo lobo caçador
+        this.adicionarAtividadesDeDistintivosFeitas(1,10, 3,6,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(1,11, 6,6,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(1,12, 9,6,2023);
+
+
         // Pessoa 2
+        // Distintivo lobo pata tenra
         this.adicionarAtividadesDeDistintivosFeitas(2,1, 1,1,2023);
         this.adicionarAtividadesDeDistintivosFeitas(2,2, 1,2,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(2,3, 1,3,2023);
+
+        // Distintivo lobo saltador
+        this.adicionarAtividadesDeDistintivosFeitas(2,4, 3,4,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(2,5, 6,4,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(2,6, 9,4,2023);
+
+        // Distintivo lobo rastreador (Falta uma atividade para completar)
+        this.adicionarAtividadesDeDistintivosFeitas(2,7, 3,5,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(2,8, 6,5,2023);
+
+        // Distintivo lobo caçador (Falta uma atividade para completar)
+        this.adicionarAtividadesDeDistintivosFeitas(2,10, 3,6,2023);
+        this.adicionarAtividadesDeDistintivosFeitas(2,11, 6,6,2023);
 
 
         // Adicionando atividades de especialidade em pessoa
         // Pessoa 1
-        this.adicionarAtividadesDeEspecialidadesFeitas(1,43, 2,6,2023);
-        this.adicionarAtividadesDeEspecialidadesFeitas(1,44, 3,6,2023);
-        this.adicionarAtividadesDeEspecialidadesFeitas(1,45, 4,6,2023);
-        this.adicionarAtividadesDeEspecialidadesFeitas(1,46, 5,6,2023);
-        this.adicionarAtividadesDeEspecialidadesFeitas(1,47, 6,6,2023);
+        // Especialidade radioescuta (Serviços)
         this.adicionarAtividadesDeEspecialidadesFeitas(1,48, 2,6,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,47, 3,6,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,46, 4,6,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,45, 5,6,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,44, 6,6,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,43, 7,6,2023);
 
-        // Pessoa 2
+        // Especialidade Echolink (Ciência e tecnologia)
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,94, 2,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,95, 3,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,96, 4,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,97, 5,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,98, 6,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,99, 7,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,100, 8,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,101, 9,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,102, 10,7,2023);
+
+        // Especialidade programação (Ciência e tecnologia)
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,163, 2,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,164, 3,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,165, 4,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,166, 5,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,167, 6,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,168, 7,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,169, 8,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,170, 9,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,171, 10,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,172, 11,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,173, 12,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,174, 13,8,2023);
+
+        // Especialidade eletrônica (Ciência e tecnologia)
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,103, 2,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,104, 3,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,105, 4,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,106, 5,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,107, 6,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,108, 7,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,109, 8,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,110, 9,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,111, 10,9,2023);
+
+        // Especialidade culinária (Habilidades escoteiras)
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,19, 2,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,20, 3,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,21, 4,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,22, 5,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,23, 6,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,24, 7,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,25, 8,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,26, 9,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,27, 10,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,28, 11,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,29, 12,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(1,30, 13,10,2023);
+
+        // Pessoa 2 (Faltam completar atividades de duas especialidades para o Cruzeiro do Sul)
+        // Especialidade radioescuta (Serviços)
         this.adicionarAtividadesDeEspecialidadesFeitas(2,43, 2,6,2023);
         this.adicionarAtividadesDeEspecialidadesFeitas(2,44, 3,6,2023);
         this.adicionarAtividadesDeEspecialidadesFeitas(2,45, 4,6,2023);
         this.adicionarAtividadesDeEspecialidadesFeitas(2,46, 5,6,2023);
         this.adicionarAtividadesDeEspecialidadesFeitas(2,47, 6,6,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,48, 7,6,2023);
+
+        // Especialidade Echolink (Ciência e tecnologia)
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,94, 2,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,95, 3,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,96, 4,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,97, 5,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,98, 6,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,99, 7,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,100, 8,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,101, 9,7,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,102, 10,7,2023);
+
+        // Especialidade programação (Ciência e tecnologia)
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,163, 2,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,164, 3,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,165, 4,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,166, 5,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,167, 6,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,168, 7,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,169, 8,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,170, 9,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,171, 10,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,172, 11,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,173, 12,8,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,174, 13,8,2023);
+
+        // Especialidade eletrônica (Ciência e tecnologia) (Possui até o nível 1)
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,103, 2,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,104, 3,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,105, 4,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,106, 5,9,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,107, 6,9,2023);
+
+
+        // Especialidade culinária (Habilidades escoteiras) (Falta uma para completar o nível 3)
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,19, 2,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,20, 3,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,21, 4,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,22, 5,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,23, 6,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,24, 7,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,25, 8,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,26, 9,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,27, 10,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,28, 11,10,2023);
+        this.adicionarAtividadesDeEspecialidadesFeitas(2,29, 12,10,2023);
 
 
         // adicionando atividades de insígnia em pessoa
         // Pessoa 1
+        // Insígnia do aprender
         this.adicionarAtividadesDeInsigniasFeitas(1, 1, 1, 7, 2023);
         this.adicionarAtividadesDeInsigniasFeitas(1, 2, 2, 7, 2023);
         this.adicionarAtividadesDeInsigniasFeitas(1, 3, 3, 7, 2023);
@@ -879,7 +1019,8 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
         this.adicionarAtividadesDeInsigniasFeitas(1, 6, 6, 7, 2023);
         this.adicionarAtividadesDeInsigniasFeitas(1, 7, 7, 7, 2023);
 
-        // Pessoa 2
+        // Pessoa 2 (Falta uma atividade para ganhar a insígnia)
+        // Insígnia do aprender
         this.adicionarAtividadesDeInsigniasFeitas(2, 1, 1, 7, 2023);
         this.adicionarAtividadesDeInsigniasFeitas(2, 2, 2, 7, 2023);
         this.adicionarAtividadesDeInsigniasFeitas(2, 3, 3, 7, 2023);
@@ -896,5 +1037,3 @@ public class SistemaLobinhoRunner implements CommandLineRunner {
         this.povoandoBanco();
     }
 }
-
-
