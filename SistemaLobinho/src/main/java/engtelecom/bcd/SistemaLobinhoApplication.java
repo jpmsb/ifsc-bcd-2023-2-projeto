@@ -88,6 +88,7 @@ public class SistemaLobinhoApplication {
 			switch (opcao) {
 				case 0:
 					sair = true;
+					System.out.println("\nEncerrando a aplicação...\n");
 					break;
 				case 1:
 					menuCadastrar();
@@ -124,7 +125,7 @@ public class SistemaLobinhoApplication {
 			switch (opcao) {
 				case 0:
 					sair = true;
-					System.out.println("Voltando ao menu anterior.");
+					System.out.println("\nVoltando ao menu anterior.\n");
 					break;
 				case 1:
 					listarDadosBibliograficos();
@@ -136,7 +137,7 @@ public class SistemaLobinhoApplication {
 					 listarEspecialidadesEInsigniasDeUmJovem();
 					break;
 				case 4:
-					// listarRequisitosFeitosJovemEspecialidade()
+					 listarRequisitosFeitosJovemEspecialidade();
 					break;
 				case 5:
 					break;
@@ -255,7 +256,7 @@ public class SistemaLobinhoApplication {
 			int opcao = entrada.nextInt();
 
 			if (opcao == 0) {
-				System.out.println("Voltando ao menu anterior.");
+				System.out.println("\nVoltando ao menu anterior.\n");
 				sair = true;
 			} else if (opcao < 1 || opcao > quantidadeOpcoes) {
 				System.out.println("Opção inválida!");
@@ -324,7 +325,7 @@ public class SistemaLobinhoApplication {
 			}
 		}
 
-		System.out.println("Especialidade " + especialidade.getNome() + ": ");
+		System.out.println("Especialidade " + especialidade.getNome() + " (" + especialidade.getAreaDeConhecimento().getNome() + "): ");
 
 		if (atividadesRealizadas.size() >= indiceNivel1+1) {
 			AtividadesDeEspecialidades atividadeNivel1 = atividadesRealizadas.get(indiceNivel1);
@@ -365,8 +366,6 @@ public class SistemaLobinhoApplication {
 			}
 		}
 
-
-
 		if (quantidadeTotalDeAtividades == atividadesRealizadas.size()) {
 			AtividadesDeInsignias ultimaAtividadeFeita = atividadesRealizadas.get(quantidadeTotalDeAtividades-1);
 
@@ -374,6 +373,25 @@ public class SistemaLobinhoApplication {
 
 			System.out.println(insignia.getNome() + ": " + dataUltimaAtividade.getDayOfMonth() + "/"  + dataUltimaAtividade.getMonthValue() + "/" + dataUltimaAtividade.getYear());
 		}
+	}
+
+	private int mostrarRequisitosEspecialidadeJovem(Pessoa pessoa, Especialidades especialidade){
+		var atividadeDeEspecialidadesFeitas = atividadesDeEspecialidadesFeitasRepository.findAllByPessoa(pessoa);
+
+		Set<AtividadesDeEspecialidades> atividadesFeitas = new HashSet<>();
+		for (AtividadesDeEspecialidadesFeitas atividadeDeEspecialidade : atividadeDeEspecialidadesFeitas){
+			if (atividadeDeEspecialidade.getAtividadeDeEspecialidade().getEspecialidade().equals(especialidade)) {
+				atividadesFeitas.add(atividadeDeEspecialidade.getAtividadeDeEspecialidade());
+			}
+		}
+
+		int numeroAtividade = 0;
+		for (AtividadesDeEspecialidades atividade : atividadesFeitas){
+			numeroAtividade++;
+			System.out.println(numeroAtividade + ". " + atividade.getDescricao());
+		}
+
+		return numeroAtividade;
 	}
 
 	private void listarJovensComDeterminadaEspecialidade(){
@@ -389,7 +407,7 @@ public class SistemaLobinhoApplication {
 			int opcao = entrada.nextInt();
 
 			if (opcao == 0) {
-				System.out.println("Voltando ao menu anterior.");
+				System.out.println("\nVoltando ao menu anterior.\n");
 				sair = true;
 			} else if (opcao < 1 || opcao > quantidadeOpcoes) {
 				System.out.println("Opção inválida!");
@@ -430,7 +448,7 @@ public class SistemaLobinhoApplication {
 			int opcao = entrada.nextInt();
 
 			if (opcao == 0) {
-				System.out.println("Voltando ao menu anterior.");
+				System.out.println("\nVoltando ao menu anterior.\n");
 				sair = true;
 			} else if (opcao < 1 || opcao > quantidadeOpcoes) {
 				System.out.println("Opção inválida!");
@@ -466,6 +484,73 @@ public class SistemaLobinhoApplication {
 					System.out.println();
 				}
 			}
+		}
+	}
+
+	private void listarRequisitosFeitosJovemEspecialidade(){
+		Scanner entrada = new Scanner(System.in);
+		boolean sairGeral = false;
+		boolean sair = false;
+
+		Pessoa objetoPessoa = null;
+		Especialidades objetoEspecialidade = null;
+
+		while (! sairGeral) {
+			System.out.println("\n\nSelecione um jovem:\n");
+			int quantidadeOpcoes = exibirPessoas();
+
+			while (! sair) {
+				System.out.print("\nEscolha o jovem que deseja consultar (1 .. " + quantidadeOpcoes + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sairGeral = true;
+					sair = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					// Obter objeto pessoa
+					var consultaPessoa = pessoaRepository.findById(opcao);
+					objetoPessoa = consultaPessoa.get();
+					sair = true;
+				}
+			}
+
+			if (sairGeral) break;
+
+			sair = false;
+			System.out.println("\n\nSelecione uma especialidade:\n");
+			quantidadeOpcoes = exibirEspecialidades();
+
+			while (! sair) {
+				System.out.print("\nEscolha a especialidade desejada (1 .. " + quantidadeOpcoes + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sairGeral = true;
+					sair = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					// Obter objeto pessoa
+					var consultaEspecialidade = especialidadesRepository.findById(opcao);
+					objetoEspecialidade = consultaEspecialidade.get();
+					sair = true;
+				}
+			}
+
+			sair = false;
+			System.out.println("\nEspecialidade " + objetoEspecialidade.getNome() + "\n");
+
+			if (mostrarRequisitosEspecialidadeJovem(objetoPessoa, objetoEspecialidade ) == 0){
+				System.out.println(objetoPessoa.getNome() + " não realizou atividades da especialidade " + objetoEspecialidade.getNome() + ".");
+			}
+
+			System.out.println("\nPressione ENTER para continuar...");
+			entrada = new Scanner(System.in);
+			entrada.nextLine();
 		}
 	}
 }
