@@ -329,6 +329,8 @@ public class SistemaLobinhoApplication {
 				}
 			}
 
+			if (sairGeral) break;
+
 			System.out.print("Digite o dia de realização: ");
 			int dia = entrada.nextInt();
 
@@ -400,6 +402,8 @@ public class SistemaLobinhoApplication {
 				}
 			}
 
+			if (sairGeral) break;
+
 			System.out.print("Digite o dia de realização: ");
 			int dia = entrada.nextInt();
 
@@ -470,6 +474,8 @@ public class SistemaLobinhoApplication {
 				}
 			}
 
+			if (sairGeral) break;
+
 			System.out.print("Digite o dia de realização: ");
 			int dia = entrada.nextInt();
 
@@ -488,7 +494,7 @@ public class SistemaLobinhoApplication {
 	}
 
 	public void cadastrarPaciticipacaoEmAcampamento(Pessoa pessoa){
-		
+
 	}
 
 	private void registrarProgresso(){
