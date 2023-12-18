@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -57,6 +58,14 @@ public class SistemaLobinhoApplication {
 	@Autowired
 	private AtividadesDeDistintivosFeitasRepository atividadesDeDistintivosFeitasRepository;
 
+	@NonNull
+	@Autowired
+	private TipoSanguineoRepository tipoSanguineoRepository;
+
+	@NonNull
+	@Autowired
+	private ResponsavelRepository responsavelRepository;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(SistemaLobinhoApplication.class, args);
@@ -70,6 +79,24 @@ public class SistemaLobinhoApplication {
 		};
 	}
 
+	private Pessoa adicionarPessoa(String nome, int diaNasc, int mesNasc, int anoNasc, String telefone, String email, Integer idTipoSanguineo){
+		var tipoSanguineo = tipoSanguineoRepository.findById(idTipoSanguineo);
+
+		Pessoa pessoa = null;
+
+		if (tipoSanguineo.isPresent()) {
+			var objetoTipoSanguineo = tipoSanguineo.get();
+			Date dataNascimento = Date.valueOf(LocalDate.of(anoNasc, mesNasc, diaNasc));
+			Pessoa novaPessoa = new Pessoa(nome, dataNascimento, objetoTipoSanguineo);
+
+			if (! telefone.isBlank()) novaPessoa.setTelefone(telefone);
+			if (! email.isBlank()) novaPessoa.setEmail(email);
+
+			pessoaRepository.save(novaPessoa);
+			pessoa = novaPessoa;
+		}
+		return pessoa;
+	}
 
 	public void menuPrincipal(){
 		Scanner entrada = new Scanner(System.in);
@@ -165,7 +192,7 @@ public class SistemaLobinhoApplication {
 			switch (opcao) {
 				case 0:
 					sair = true;
-					System.out.println("Voltando ao menu anterior.");
+					System.out.println("\nVoltando ao menu anterior.\n");
 					break;
 				case 1:
 					 cadastrarNovoLobinho();
@@ -181,7 +208,71 @@ public class SistemaLobinhoApplication {
 	}
 
 	private void cadastrarNovoLobinho(){
+		Scanner entrada = new Scanner(System.in);
+		boolean sair = false;
+		int idTipoSanguineo = 0;
+		Responsavel responsavel = null;
+		Pessoa novaPessoa = null;
 
+		System.out.print("Nome do jovem: ");
+		String nome = entrada.nextLine();
+
+		System.out.print("Digite o dia de nascimento: ");
+		int diaNasc = entrada.nextInt();
+
+		System.out.print("Digite o mês de nascimento: ");
+		int mesNasc = entrada.nextInt();
+
+		System.out.print("Digite o ano de nascimento: ");
+		int anoNasc = entrada.nextInt();
+
+		System.out.print("Digite o telefone: ");
+		String telefone = entrada.nextLine();
+		telefone = entrada.nextLine();
+
+		System.out.print("Digite um e-mail: ");
+		String email = entrada.nextLine();
+
+		System.out.println("\nSelecione o tipo sanguíneo para o novo Lobinho:\n");
+		int quantidadeOpcoes = exibirTiposSanguineos();
+
+		while (! sair) {
+			System.out.print("\nEscolha a opção desejada (1 .. " + quantidadeOpcoes + "): ");
+			int opcao = entrada.nextInt();
+
+			if (opcao < 1 || opcao > quantidadeOpcoes) {
+				System.out.println("Opção inválida!");
+			} else {
+				var consulta = tipoSanguineoRepository.findById(opcao);
+				var objetoTipoSanguineo = consulta.get();
+				sair = true;
+				idTipoSanguineo = objetoTipoSanguineo.getIdTipoSanguineo();
+			}
+		}
+
+		novaPessoa = adicionarPessoa(nome, diaNasc, mesNasc, anoNasc, telefone, email, idTipoSanguineo);
+
+		System.out.println("\nSelecione o resposável para esse lobinho:\n");
+		quantidadeOpcoes = exibirResponsaveis();
+
+		sair = false;
+		while (! sair) {
+			System.out.print("\nEscolha a opção desejada (1 .. " + quantidadeOpcoes + "): ");
+			int opcao = entrada.nextInt();
+
+			if (opcao < 1 || opcao > quantidadeOpcoes) {
+				System.out.println("Opção inválida!");
+			} else {
+				var consulta = responsavelRepository.findById(opcao);
+				responsavel = consulta.get();
+				sair = true;
+			}
+		}
+
+		novaPessoa.adicionarResponsavel(responsavel);
+		pessoaRepository.save(novaPessoa);
+
+		System.out.println("\nCadastro realizado!\n");
 	}
 
 	private void registrarProgresso(){
@@ -193,6 +284,15 @@ public class SistemaLobinhoApplication {
 		for (Pessoa pessoa : pessoaRepository.findAll()){
 			numeroOpcao++;
 			System.out.println(numeroOpcao + ". " + pessoa.getNome());
+		}
+		return numeroOpcao;
+	}
+
+	private int exibirResponsaveis(){
+		int numeroOpcao = 0;
+		for (Responsavel responsavel : responsavelRepository.findAll()){
+			numeroOpcao++;
+			System.out.println(numeroOpcao + ". " + responsavel.getNome());
 		}
 		return numeroOpcao;
 	}
@@ -233,6 +333,14 @@ public class SistemaLobinhoApplication {
 		return numeroOpcao;
 	}
 
+	private int exibirTiposSanguineos(){
+		int numeroOpcao = 0;
+		for (TipoSanguineo tipoSanguineo : tipoSanguineoRepository.findAll()){
+			numeroOpcao++;
+			System.out.println(numeroOpcao + ". " + tipoSanguineo.getTipo());
+		}
+		return numeroOpcao;
+	}
 
 	private int exibirOpcoes(String itens[]){
 		int numeroOpcao = 0;
