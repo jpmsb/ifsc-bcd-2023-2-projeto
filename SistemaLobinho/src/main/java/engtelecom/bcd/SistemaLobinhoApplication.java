@@ -11,10 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootApplication
 public class SistemaLobinhoApplication {
@@ -65,6 +62,10 @@ public class SistemaLobinhoApplication {
 	@NonNull
 	@Autowired
 	private ResponsavelRepository responsavelRepository;
+
+	@NonNull
+	@Autowired
+	private AtividadesDeDistintivosRepository atividadesDeDistintivosRepository;
 
 
 	public static void main(String[] args) {
@@ -275,8 +276,289 @@ public class SistemaLobinhoApplication {
 		System.out.println("\nCadastro realizado!\n");
 	}
 
-	private void registrarProgresso(){
+	public void cadastrarProgressoDistintivo(Pessoa pessoa){
+		Scanner entrada = new Scanner(System.in);
+		boolean sair = false;
+		boolean sairGeral = false;
+		Distintivos distintivo = null;
+		AtividadesDeDistintivos atividadeDeDistintivo = null;
 
+		System.out.println("\n\nSelecione um distintivo:\n");
+
+		int quantidadeOpcoes = exibirDistintivos();
+
+		while (! sairGeral) {
+			while (!sair) {
+				System.out.print("\nEscolha a opção desejada (1 .. " + quantidadeOpcoes + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sair = true;
+					sairGeral = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					// Atividades do distintivo escolhido
+					var consultaEspecialidade = distintivosRepository.findById(opcao);
+					distintivo = consultaEspecialidade.get();
+					sair = true;
+				}
+			}
+
+			if (sairGeral) break;
+
+			// Obtendo as atividades de distintivos
+			HashMap<Integer, Integer> idsAtividades = exibirAtividadesDeDistintivo(distintivo);
+
+			sair = false;
+			while (! sair) {
+				System.out.print("\nEscolha a opção desejada (1 .. " + idsAtividades.size() + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sair = true;
+					sairGeral = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					var consulta = atividadesDeDistintivosRepository.findById(idsAtividades.get(opcao));
+					atividadeDeDistintivo = consulta.get();
+					sair = true;
+				}
+			}
+
+			System.out.print("Digite o dia de realização: ");
+			int dia = entrada.nextInt();
+
+			System.out.print("Digite o mês de realização: ");
+			int mes = entrada.nextInt();
+
+			System.out.print("Digite o ano de realização: ");
+			int ano = entrada.nextInt();
+
+			Date data = Date.valueOf(LocalDate.of(ano, mes, dia));
+			var atividadeDeDistintivoFeita = new AtividadesDeDistintivosFeitas(atividadeDeDistintivo, pessoa, data);
+			atividadesDeDistintivosFeitasRepository.save(atividadeDeDistintivoFeita);
+
+			System.out.println("\n");
+		}
+
+	}
+
+	public void cadastrarProgressoInsignia(Pessoa pessoa){
+		Scanner entrada = new Scanner(System.in);
+		boolean sair = false;
+		boolean sairGeral = false;
+		Insignias insignia = null;
+		AtividadesDeInsignias atividadeDeInsignia = null;
+
+		System.out.println("\n\nSelecione uma insígnia:\n");
+
+		int quantidadeOpcoes = exibirInsignias();
+
+		while (! sairGeral) {
+			while (!sair) {
+				System.out.print("\nEscolha a opção desejada (1 .. " + quantidadeOpcoes + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sair = true;
+					sairGeral = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					// Atividades da insígnia escolhida
+					var consultaInsignia = insigniasRepository.findById(opcao);
+					insignia = consultaInsignia.get();
+					sair = true;
+				}
+			}
+
+			if (sairGeral) break;
+
+			// Obtendo as atividades de distintivos
+			HashMap<Integer, Integer> idsAtividades = exibirAtividadesDeInsignia(insignia);
+
+			sair = false;
+			while (! sair) {
+				System.out.print("\nEscolha a opção desejada (1 .. " + idsAtividades.size() + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sair = true;
+					sairGeral = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					var consulta = atividadesDeInsigniasRepository.findById(idsAtividades.get(opcao));
+					atividadeDeInsignia = consulta.get();
+					sair = true;
+				}
+			}
+
+			System.out.print("Digite o dia de realização: ");
+			int dia = entrada.nextInt();
+
+			System.out.print("Digite o mês de realização: ");
+			int mes = entrada.nextInt();
+
+			System.out.print("Digite o ano de realização: ");
+			int ano = entrada.nextInt();
+
+			Date data = Date.valueOf(LocalDate.of(ano, mes, dia));
+			var atividadesDeInsigniaFeitas = new AtividadesDeInsigniasFeitas(atividadeDeInsignia, pessoa, data);
+			atividadesDeInsigniasFeitasRepository.save(atividadesDeInsigniaFeitas);
+
+			System.out.println("\n");
+		}
+	}
+
+	public void cadastrarProgressoEspecialidade(Pessoa pessoa){
+		Scanner entrada = new Scanner(System.in);
+		boolean sair = false;
+		boolean sairGeral = false;
+		Especialidades especialidade = null;
+		AtividadesDeEspecialidades atividadeDeEspecialidade = null;
+
+		System.out.println("\n\nSelecione um distintivo:\n");
+
+		int quantidadeOpcoes = exibirEspecialidades();
+
+		while (! sairGeral) {
+			while (!sair) {
+				System.out.print("\nEscolha a opção desejada (1 .. " + quantidadeOpcoes + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sair = true;
+					sairGeral = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					// Atividades da especialidade escolhida
+					var consultaEspecialidade = especialidadesRepository.findById(opcao);
+					especialidade = consultaEspecialidade.get();
+					sair = true;
+				}
+			}
+
+			if (sairGeral) break;
+
+			// Obtendo as atividades de distintivos
+			HashMap<Integer, Integer> idsAtividades = exibirAtividadesDeEspecialidade(especialidade);
+
+			sair = false;
+			while (! sair) {
+				System.out.print("\nEscolha a opção desejada (1 .. " + idsAtividades.size() + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sair = true;
+					sairGeral = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					var consulta = atividadesDeEspecialidadesRepository.findById(idsAtividades.get(opcao));
+					atividadeDeEspecialidade = consulta.get();
+					sair = true;
+				}
+			}
+
+			System.out.print("Digite o dia de realização: ");
+			int dia = entrada.nextInt();
+
+			System.out.print("Digite o mês de realização: ");
+			int mes = entrada.nextInt();
+
+			System.out.print("Digite o ano de realização: ");
+			int ano = entrada.nextInt();
+
+			Date data = Date.valueOf(LocalDate.of(ano, mes, dia));
+			var atividadeDeEspecialidadeFeita = new AtividadesDeEspecialidadesFeitas(atividadeDeEspecialidade, pessoa, data);
+			atividadesDeEspecialidadesFeitasRepository.save(atividadeDeEspecialidadeFeita);
+
+			System.out.println("\n");
+		}
+	}
+
+	public void cadastrarPaciticipacaoEmAcampamento(Pessoa pessoa){
+		
+	}
+
+	private void registrarProgresso(){
+		Scanner entrada = new Scanner(System.in);
+		boolean sair = false;
+		boolean sairGeral = false;
+		Pessoa pessoa = null;
+		int quantidadeOpcoes = 0;
+
+		System.out.println("\n\nSelecione um jovem:\n");
+
+		while (! sairGeral) {
+			while (!sair) {
+				quantidadeOpcoes = exibirPessoas();
+				System.out.print("\nEscolha a opção desejada (1 .. " + quantidadeOpcoes + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				if (opcao == 0) {
+					System.out.println("\nVoltando ao menu anterior.\n");
+					sair = true;
+					sairGeral = true;
+				} else if (opcao < 1 || opcao > quantidadeOpcoes) {
+					System.out.println("Opção inválida!");
+				} else {
+					var consulta = pessoaRepository.findById(opcao);
+					pessoa = consulta.get();
+					sair = true;
+				}
+			}
+
+			if (sairGeral) break;
+
+			String opcoes[] = {
+					"Cadastrar progresso de distintivo.",
+					"Cadastrar progresso de insígnia.",
+					"Cadastrar progresso de especialidade.",
+					"Cadastrar participação em acampamento."
+			};
+
+			sair = false;
+			while (! sair) {
+				quantidadeOpcoes = exibirOpcoes(opcoes);
+				System.out.print("\nEscolha a opção desejada (1 .. " + quantidadeOpcoes + ", 0 para sair): ");
+				int opcao = entrada.nextInt();
+
+				switch (opcao) {
+					case 0:
+						sair = true;
+						sairGeral = true;
+						System.out.println("\nVoltando ao menu anterior.\n");
+						break;
+					case 1:
+						cadastrarProgressoDistintivo(pessoa);
+						break;
+					case 2:
+						cadastrarProgressoInsignia(pessoa);
+						break;
+					case 3:
+						cadastrarProgressoEspecialidade(pessoa);
+						break;
+					case 4:
+						cadastrarPaciticipacaoEmAcampamento(pessoa);
+						break;
+					default:
+						System.out.println("\nOpção inválida! Escolha dentre as opções abaixo:\n");
+				}
+			}
+
+
+		}
 	}
 
 	private int exibirPessoas(){
@@ -340,6 +622,42 @@ public class SistemaLobinhoApplication {
 			System.out.println(numeroOpcao + ". " + tipoSanguineo.getTipo());
 		}
 		return numeroOpcao;
+	}
+
+	private HashMap<Integer, Integer> exibirAtividadesDeDistintivo(Distintivos distintivo){
+		int numeroOpcao = 0;
+		HashMap<Integer, Integer> ids = new HashMap<>();
+
+		for (AtividadesDeDistintivos atividade : atividadesDeDistintivosRepository.findAllByDistintivoOrderByIdAtividade(distintivo)){
+			numeroOpcao++;
+			ids.put(numeroOpcao, atividade.getIdAtividade());
+			System.out.println(numeroOpcao + ". " + atividade.getDescricao());
+		}
+		return ids;
+	}
+
+	private HashMap<Integer, Integer> exibirAtividadesDeInsignia(Insignias insignia){
+		int numeroOpcao = 0;
+		HashMap<Integer, Integer> ids = new HashMap<>();
+
+		for (AtividadesDeInsignias atividade : atividadesDeInsigniasRepository.findAllByInsigniaOrderByIdAtividade(insignia)){
+			numeroOpcao++;
+			System.out.println(numeroOpcao + ". " + atividade.getDescricao());
+			ids.put(numeroOpcao, atividade.getIdAtividade());
+		}
+		return ids;
+	}
+
+	private HashMap<Integer, Integer> exibirAtividadesDeEspecialidade(Especialidades especialidade){
+		int numeroOpcao = 0;
+		HashMap<Integer, Integer> ids = new HashMap<>();
+
+		for (AtividadesDeEspecialidades atividade : atividadesDeEspecialidadesRepository.findAllByEspecialidadeOrderByIdAtividade(especialidade)){
+			numeroOpcao++;
+			System.out.println(numeroOpcao + ". " + atividade.getDescricao());
+			ids.put(numeroOpcao, atividade.getIdAtividade());
+		}
+		return ids;
 	}
 
 	private int exibirOpcoes(String itens[]){
